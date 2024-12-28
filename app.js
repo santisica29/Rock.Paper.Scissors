@@ -1,4 +1,7 @@
 
+let humanScore = 0;
+let computerScore = 0;
+
 function getComputerChoice(){
     
     let choice = Math.floor(Math.random() * 3);
@@ -8,4 +11,29 @@ function getComputerChoice(){
     if (choice == 2) return "scissors";
 }
 
-console.log(getComputerChoice())
+function getHumanChoice(){
+    let flag = false;
+    let userInput;
+
+    while (!flag){
+        userInput = prompt("Choose rock, paper or scissors").toLowerCase();
+
+        if (userInput === "rock" || userInput === "scissors" || userInput === "paper"){
+            flag = true;
+        } 
+    }
+
+    return userInput;
+}
+
+function playRound(humanChoice, computerChoice){
+
+    if (humanChoice === "rock" && computerChoice === "scissors"){
+        humanScore++;
+        return "You win, rock beats paper" 
+    } 
+    
+    return "You lose " + computerChoice;
+}
+
+console.log(playRound(getHumanChoice(), getComputerChoice()));
