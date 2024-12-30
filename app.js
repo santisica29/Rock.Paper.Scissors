@@ -37,10 +37,12 @@ function playRound(humanChoice, computerChoice) {
   let tie = humanChoice === computerChoice;
   if (won) {
     humanScore++;
-    return "You win, rock beats paper";
+    return `You win, ${humanChoice} beats ${computerChoice}`;
+  } else if (tie) {
+    return "You tie";
+  } else {
+    return `You lose, ${computerChoice} beats ${humanChoice}`;
   }
-
-  return "You lose " + computerChoice;
 }
 
 console.log(playRound(getHumanChoice(), getComputerChoice()));
