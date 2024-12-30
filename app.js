@@ -1,6 +1,3 @@
-let humanScore = 0;
-let computerScore = 0;
-
 function getComputerChoice() {
   let choice = Math.floor(Math.random() * 3);
 
@@ -36,13 +33,39 @@ function playRound(humanChoice, computerChoice) {
 
   let tie = humanChoice === computerChoice;
   if (won) {
-    humanScore++;
-    return `You win, ${humanChoice} beats ${computerChoice}`;
+    console.log(`You win, ${humanChoice} beats ${computerChoice}`);
+    return 0;
   } else if (tie) {
-    return "You tie";
+    console.log("You tie");
+    return 1;
   } else {
-    return `You lose, ${computerChoice} beats ${humanChoice}`;
+    console.log(`You lose, ${computerChoice} beats ${humanChoice}`);
+    return 2;
   }
 }
 
-console.log(playRound(getHumanChoice(), getComputerChoice()));
+function playGame(numOfRounds) {
+  let humanScore = 0;
+  let computerScore = 0;
+  let nums = 0;
+
+  for (i = 1; i <= numOfRounds; i++) {
+    let game = playRound(getHumanChoice(), getComputerChoice());
+    if (game === 0) {
+      humanScore++;
+    } else if (game === 2) {
+      computerScore++;
+    }
+
+    nums++;
+  }
+
+  console.log(
+    `The game ended, 
+    ${(humanScore === computerScore) ? "you tied..." : (humanScore > computerScore) ? "you win... " : "you lost..."} 
+    YOU: ${humanScore} pts - COMPUTER ${computerScore} pts`
+  );
+
+}
+
+playGame(5);
