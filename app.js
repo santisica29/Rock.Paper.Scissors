@@ -1,3 +1,13 @@
+
+const btnRock = document.querySelector("#rock");
+const btnPaper = document.querySelector("#paper");
+const btnScissors = document.querySelector("#scissors");
+const result = document.querySelector("#result");
+
+btnRock.addEventListener('click', playRound);
+btnPaper.addEventListener('click', playRound);
+btnScissors.addEventListener('click', playRound);
+
 function getComputerChoice() {
   let randomChoice = Math.floor(Math.random() * 3);
 
@@ -6,26 +16,10 @@ function getComputerChoice() {
   if (randomChoice == 2) return "scissors";
 }
 
-function getHumanChoice() {
-  let flag = false;
-  let userInput;
+function playRound() {
+  let computerChoice = getComputerChoice();
+  let humanChoice = this.dataset.choice;
 
-  while (!flag) {
-    userInput = prompt("Choose rock, paper or scissors").toLowerCase();
-
-    if (
-      userInput === "rock" ||
-      userInput === "scissors" ||
-      userInput === "paper"
-    ) {
-      flag = true;
-    }
-  }
-
-  return userInput;
-}
-
-function playRound(humanChoice, computerChoice) {
   let win =
     (humanChoice === "rock" && computerChoice === "scissors") ||
     (humanChoice === "paper" && computerChoice === "rock") ||
@@ -34,13 +28,13 @@ function playRound(humanChoice, computerChoice) {
   let tie = humanChoice === computerChoice;
 
   if (win) {
-    console.log(`You win, ${humanChoice} beats ${computerChoice}`);
+    result.innerText = `You win, ${humanChoice} beats ${computerChoice}`;
     return 0;
   } else if (tie) {
-    console.log("You tie");
+    result.innerText = "You tie";
     return 1;
   } else {
-    console.log(`You lose, ${computerChoice} beats ${humanChoice}`);
+    result.innerText = `You lose, ${computerChoice} beats ${humanChoice}`;
     return 2;
   }
 }
@@ -69,4 +63,4 @@ function playGame(numOfRounds) {
   );
 }
 
-playGame(5);
+
