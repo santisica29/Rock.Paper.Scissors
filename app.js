@@ -1,12 +1,20 @@
+let humanScore = 0;
+let compScore = 0;
 
 const btnRock = document.querySelector("#rock");
 const btnPaper = document.querySelector("#paper");
 const btnScissors = document.querySelector("#scissors");
+const btnReset = document.querySelector("#reset");
 const result = document.querySelector("#result");
 
 btnRock.addEventListener('click', playRound);
 btnPaper.addEventListener('click', playRound);
 btnScissors.addEventListener('click', playRound);
+btnReset.addEventListener('click', () => {
+  humanScore = 0;
+  compScore = 0;
+  result.innerText = '';
+})
 
 function getComputerChoice() {
   let randomChoice = Math.floor(Math.random() * 3);
@@ -17,6 +25,11 @@ function getComputerChoice() {
 }
 
 function playRound() {
+
+  if (humanScore === 5 || compScore === 5){
+    return;
+  }
+
   let computerChoice = getComputerChoice();
   let humanChoice = this.dataset.choice;
 
@@ -29,38 +42,48 @@ function playRound() {
 
   if (win) {
     result.innerText = `You win, ${humanChoice} beats ${computerChoice}`;
-    return 0;
+    humanScore++;
   } else if (tie) {
     result.innerText = "You tie";
-    return 1;
   } else {
     result.innerText = `You lose, ${computerChoice} beats ${humanChoice}`;
-    return 2;
+    compScore++;
+  }
+
+  result.innerText += `\nYou: ${humanScore} - Comp: ${compScore}`;
+
+  if (humanScore === 5 || compScore === 5){
+    gameOver();
+    return;
   }
 }
 
-function playGame(numOfRounds) {
-  let humanScore = 0;
-  let computerScore = 0;
+function gameOver(){
+  result.innerText = `Game Over ${humanScore} - ${compScore}\n ${humanScore > compScore ? 'You win' : 'You lose'}\n Press reset for a new game`;
+}
 
-  for (i = 1; i <= numOfRounds; i++) {
-    let game = playRound(getHumanChoice(), getComputerChoice());
+// function playGame(numOfRounds) {
+//   let humanScore = 0;
+//   let computerScore = 0;
+
+//   for (i = 1; i <= numOfRounds; i++) {
+//     let game = playRound(getHumanChoice(), getComputerChoice());
     
-    if (game === 0) humanScore++;
-    if (game === 2) computerScore++;
-  }
+//     if (game === 0) humanScore++;
+//     if (game === 2) computerScore++;
+//   }
 
-  console.log(
-    `The game ended, 
-    ${
-      humanScore === computerScore
-        ? "you tied..."
-        : humanScore > computerScore
-        ? "you win... "
-        : "you lost..."
-    } 
-    YOU: ${humanScore} pts - COMPUTER ${computerScore} pts`
-  );
-}
+//   console.log(
+//     `The game ended, 
+//     ${
+//       humanScore === computerScore
+//         ? "you tied..."
+//         : humanScore > computerScore
+//         ? "you win... "
+//         : "you lost..."
+//     } 
+//     YOU: ${humanScore} pts - COMPUTER ${computerScore} pts`
+//   );
+// }
 
 
