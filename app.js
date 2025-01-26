@@ -1,15 +1,18 @@
 let humanScore = 0;
 let compScore = 0;
 
-const btnRock = document.querySelector("#rock");
-const btnPaper = document.querySelector("#paper");
-const btnScissors = document.querySelector("#scissors");
 const btnReset = document.querySelector("#reset");
 const result = document.querySelector("#result");
 
-btnRock.addEventListener('click', playRound);
-btnPaper.addEventListener('click', playRound);
-btnScissors.addEventListener('click', playRound);
+const buttons = document.querySelectorAll('.btn');
+buttons.forEach((btn) => {
+  btn.addEventListener('click', (e) => {
+    
+    const playerSelection = e.target.getAttribute('data-choice');
+    playRound(playerSelection)
+  })
+})
+
 btnReset.addEventListener('click', () => {
   humanScore = 0;
   compScore = 0;
@@ -17,21 +20,20 @@ btnReset.addEventListener('click', () => {
 })
 
 function getComputerChoice() {
+  let options = ['rock', 'paper', 'scissors'];
   let randomChoice = Math.floor(Math.random() * 3);
 
-  if (randomChoice == 0) return "rock";
-  if (randomChoice == 1) return "paper";
-  if (randomChoice == 2) return "scissors";
+  return options[randomChoice];
 }
 
-function playRound() {
+function playRound(humanChoice) {
 
   if (humanScore === 5 || compScore === 5){
     return;
   }
 
   let computerChoice = getComputerChoice();
-  let humanChoice = this.dataset.choice;
+  //let humanChoice = this.dataset.choice;
 
   let win =
     (humanChoice === "rock" && computerChoice === "scissors") ||
@@ -40,13 +42,15 @@ function playRound() {
 
   let tie = humanChoice === computerChoice;
 
+  result.innerText = `${humanChoice.toUpperCase()} vs. ${computerChoice.toLocaleUpperCase()}\n`
+
   if (win) {
-    result.innerText = `You win, ${humanChoice} beats ${computerChoice}`;
+    result.innerText += `You win, ${humanChoice} beats ${computerChoice}`;
     humanScore++;
   } else if (tie) {
-    result.innerText = "You tie";
+    result.innerText += "You tie";
   } else {
-    result.innerText = `You lose, ${computerChoice} beats ${humanChoice}`;
+    result.innerText += `You lose, ${computerChoice} beats ${humanChoice}`;
     compScore++;
   }
 
